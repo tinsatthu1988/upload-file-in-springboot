@@ -1,5 +1,6 @@
 package com.aptech.testangularspringboot.service.impl;
 
+import com.aptech.testangularspringboot.FileUploadUtil;
 import com.aptech.testangularspringboot.entity.Book;
 import com.aptech.testangularspringboot.repository.BookRepository;
 import com.aptech.testangularspringboot.service.BookService;
@@ -33,7 +34,7 @@ public class BookServiceImpl implements BookService {
         return bookRepository.save(book);
     }
 
-    public Book getJson(String book, MultipartFile file){
+    public Book getJson(String book, MultipartFile file) throws IOException{
         Book bookJson = new Book();
 
         try {
@@ -42,12 +43,6 @@ public class BookServiceImpl implements BookService {
         } catch (IOException ex){
             System.out.println(ex.toString());
         }
-
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        String fileNamePath = UUID.randomUUID() + fileName.replaceAll(" ", "").trim();
-        String imageUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/").path(fileNamePath).toUriString();
-        System.out.println(imageUrl);
-        bookJson.setImageUrl(imageUrl);
 
         return bookJson;
     }
