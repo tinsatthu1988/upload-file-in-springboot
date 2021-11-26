@@ -1,8 +1,11 @@
 package com.aptech.testangularspringboot.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
+@Data
 @Table(name = "book")
 public class Book {
     @Id

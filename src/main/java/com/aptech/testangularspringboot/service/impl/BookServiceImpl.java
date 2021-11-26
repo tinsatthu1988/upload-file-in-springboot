@@ -3,10 +3,16 @@ package com.aptech.testangularspringboot.service.impl;
 import com.aptech.testangularspringboot.entity.Book;
 import com.aptech.testangularspringboot.repository.BookRepository;
 import com.aptech.testangularspringboot.service.BookService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -23,6 +29,26 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book save(Book book) {
+
         return bookRepository.save(book);
+    }
+
+    public Book getJson(String book, MultipartFile file){
+        Book bookJson = new Book();
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            bookJson = objectMapper.readValue(book, Book.class);
+        } catch (IOException ex){
+            System.out.println(ex.toString());
+        }
+
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileNamePath = UUID.randomUUID() + fileName.replaceAll(" ", "").trim();
+        String imageUrl = ServletUriComponentsBuilder.fromCurrentContextPath().path("/").path(fileNamePath).toUriString();
+        System.out.println(imageUrl);
+        bookJson.setImageUrl(imageUrl);
+
+        return bookJson;
     }
 }
