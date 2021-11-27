@@ -30,32 +30,24 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.OK).body(listBooks);
     }
 
-//    @PostMapping(value = "/books", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-//    public ResponseEntity<?> saveBooks(@RequestPart("book") String book, @RequestPart("file") MultipartFile file) throws IOException {
-//        Book bookJson = bookService.getJson(book, file);
-//
-//        if (!file.isEmpty()) {
-//            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-//            bookJson.setImageName(fileName);
-//            Book savedBook = bookService.save(bookJson);
-//            String uploadDir = "book-images/" + savedBook.getId();
-//
-//            FileUploadUtil.cleanDir(uploadDir);
-//            FileUploadUtil.saveFile(uploadDir, fileName, file);
-//        }
-//
-//        Book savedBook = bookService.save(bookJson);
-//        System.out.println(savedBook);
-//
-//        return new ResponseEntity<>(savedBook, HttpStatus.CREATED);
-//    }
+    @PostMapping(value = "/books", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<?> saveBooks(@RequestPart("book") String book, @RequestPart("file") MultipartFile file) throws IOException {
+        Book bookJson = bookService.getJson(book, file);
 
-    @PostMapping(value = "/books")
-    public ResponseEntity<?> saveBooks(@RequestBody Book book) throws IOException {
+        if (!file.isEmpty()) {
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            bookJson.setImageName(fileName);
+            Book savedBook = bookService.save(bookJson);
+            String uploadDir = "book-images/" + savedBook.getId();
 
-        Book savedBook = bookService.save(book);
+            FileUploadUtil.cleanDir(uploadDir);
+            FileUploadUtil.saveFile(uploadDir, fileName, file);
+        }
+
+        Book savedBook = bookService.save(bookJson);
         System.out.println(savedBook);
 
         return new ResponseEntity<>(savedBook, HttpStatus.CREATED);
     }
+
 }
