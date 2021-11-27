@@ -3,6 +3,7 @@ package com.aptech.testangularspringboot.controller;
 import com.aptech.testangularspringboot.FileUploadUtil;
 import com.aptech.testangularspringboot.entity.Book;
 import com.aptech.testangularspringboot.service.BookService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,10 +32,17 @@ public class BookController {
     }
 
     @PostMapping(value = "/books", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<?> saveBooks(@RequestPart("book") String book, @RequestPart("file") MultipartFile file) throws IOException {
-        Book bookJson = bookService.getJson(book, file);
+    public ResponseEntity<?> saveBooks(@RequestPart("book") String book, @RequestPart(value = "file", required = false) MultipartFile file) throws IOException {
+        Book bookJson = new Book();
 
-        if (!file.isEmpty()) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            bookJson = objectMapper.readValue(book, Book.class);
+        } catch (IOException ex){
+            System.out.println(ex.toString());
+        }
+
+        if (file != null) {
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
             bookJson.setImageName(fileName);
             Book savedBook = bookService.save(bookJson);
@@ -45,7 +53,6 @@ public class BookController {
         }
 
         Book savedBook = bookService.save(bookJson);
-        System.out.println(savedBook);
 
         return new ResponseEntity<>(savedBook, HttpStatus.CREATED);
     }

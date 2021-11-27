@@ -11,8 +11,6 @@ public interface BookService {
 
     Book save(Book book);
 
-    Book getJson(String book, MultipartFile file) throws IOException;
-
     void delete(Long id);
 
 }

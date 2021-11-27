@@ -34,19 +34,6 @@ public class BookServiceImpl implements BookService {
         return bookRepository.save(book);
     }
 
-    public Book getJson(String book, MultipartFile file) throws IOException{
-        Book bookJson = new Book();
-
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            bookJson = objectMapper.readValue(book, Book.class);
-        } catch (IOException ex){
-            System.out.println(ex.toString());
-        }
-
-        return bookJson;
-    }
-
     @Override
     public void delete(Long id) {
         bookRepository.deleteById(id);
