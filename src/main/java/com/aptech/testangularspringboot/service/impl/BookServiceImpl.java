@@ -46,4 +46,9 @@ public class BookServiceImpl implements BookService {
 
         return bookJson;
     }
+
+    @Override
+    public void delete(Long id) {
+        bookRepository.deleteById(id);
+    }
 }

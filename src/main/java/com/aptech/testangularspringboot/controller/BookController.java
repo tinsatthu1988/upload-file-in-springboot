@@ -50,4 +50,11 @@ public class BookController {
         return new ResponseEntity<>(savedBook, HttpStatus.CREATED);
     }
 
+    @DeleteMapping("books/{bookId}") //api/auth/book/{bookId}
+    public ResponseEntity<?> deleteBook(@PathVariable Long bookId)
+    {
+        bookService.delete(bookId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }
