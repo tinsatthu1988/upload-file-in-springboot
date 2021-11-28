@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-//@RequestMapping("/api/auth")
+@RequestMapping("/api/auth")
 @CrossOrigin("http://localhost:4200")
 public class BookController {
     @Autowired
