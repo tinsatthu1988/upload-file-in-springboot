@@ -6,6 +6,9 @@ import com.aptech.testangularspringboot.repository.BookRepository;
 import com.aptech.testangularspringboot.service.BookService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,8 +27,14 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+    public Page<Book> getAllBooks(int pageNum, int pageSize, String keyword) {
+        Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
+
+        if(keyword != null) {
+            return bookRepository.findAll(keyword, pageable);
+        }
+
+        return bookRepository.findAll(pageable);
     }
 
     @Override

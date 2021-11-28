@@ -5,6 +5,7 @@ import com.aptech.testangularspringboot.entity.Book;
 import com.aptech.testangularspringboot.service.BookService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,17 +19,20 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/auth")
-@CrossOrigin(origins = "*", maxAge = 3600)
+//@RequestMapping("/api/auth")
+@CrossOrigin("http://localhost:4200")
 public class BookController {
     @Autowired
     private BookService bookService;
 
     @GetMapping("/books")
-    public ResponseEntity<?> getAllBooks(){
-        List<Book> listBooks = bookService.getAllBooks();
+    public ResponseEntity<?> getAllBooks(@RequestParam(name = "page") int pageNum,
+                                         @RequestParam(name = "size") int pageSize,
+                                         @RequestParam(name = "keyword") String keyword){
+        Page<Book> page = bookService.getAllBooks(pageNum, pageSize, keyword);
+        //List<Book> listBooks = page.getContent();
 
-        return ResponseEntity.status(HttpStatus.OK).body(listBooks);
+        return ResponseEntity.status(HttpStatus.OK).body(page);
     }
 
     @PostMapping(value = "/books", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
