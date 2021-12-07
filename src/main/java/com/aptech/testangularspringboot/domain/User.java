@@ -47,8 +47,8 @@ public class User implements Serializable {
     @Column(name = "join_date")
     private Date joinDate;
 
-    @Column(name = "roles")
-    private String[] roles; // Role_User {read}, ROLE_ADMIN {read, update, delete}
+    @Column(name = "role")
+    private String role; // Role_User {read}, ROLE_ADMIN {read, update, delete}
 
     @Column(name = "authorities")
     private String[] authorities; // delete, insert, update, delete
@@ -59,7 +59,7 @@ public class User implements Serializable {
     @Column(name = "is_not_locked")
     private boolean isNotLocked;
 
-    public User(Long id, String userId, String firstName, String lastName, String username, String password, String email, String profileImageUrl, Date lastLoginDate, Date lastLoginDateDisplay, Date joinDate, String[] roles, String[] authorities, boolean isActive, boolean isNotLocked) {
+    public User(Long id, String userId, String firstName, String lastName, String username, String password, String email, String profileImageUrl, Date lastLoginDate, Date lastLoginDateDisplay, Date joinDate, String role, String[] authorities, boolean isActive, boolean isNotLocked) {
         this.id = id;
         this.userId = userId;
         this.firstName = firstName;
@@ -71,7 +71,7 @@ public class User implements Serializable {
         this.lastLoginDate = lastLoginDate;
         this.lastLoginDateDisplay = lastLoginDateDisplay;
         this.joinDate = joinDate;
-        this.roles = roles;
+        this.role = role;
         this.authorities = authorities;
         this.isActive = isActive;
         this.isNotLocked = isNotLocked;
