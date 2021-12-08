@@ -1,5 +1,6 @@
 package com.aptech.testangularspringboot.service;
 
+import com.sun.mail.smtp.SMTPTransport;
 import org.springframework.stereotype.Service;
 
 
@@ -20,14 +21,14 @@ import static javax.mail.Message.RecipientType.TO;
 @Service
 public class EmailService {
 
-//    public void sendNewPasswordEmail(String firstName, String password, String email) throws MessagingException {
-//        Message message = createEmail(firstName, password, email);
-//        SMTPTransport smtpTransport = (SMTPTransport) getEmailSession().getTransport(SIMPLE_MAIL_TRANSFER_PROTOCOL);
-//        smtpTransport.connect(GMAIL_SMTP_SERVER, USERNAME, PASSWORD);
-//        smtpTransport.sendMessage(message, message.getAllRecipients());
-//        smtpTransport.close();
-//    }
-//
+    public void sendNewPasswordEmail(String firstName, String password, String email) throws MessagingException {
+        Message message = createEmail(firstName, password, email);
+        SMTPTransport smtpTransport = (SMTPTransport) getEmailSession().getTransport(SIMPLE_MAIL_TRANSFER_PROTOCOL);
+        smtpTransport.connect(GMAIL_SMTP_SERVER, USERNAME, PASSWORD);
+        smtpTransport.sendMessage(message, message.getAllRecipients());
+        smtpTransport.close();
+    }
+
     private Message createEmail(String firstName, String password, String email) throws MessagingException {
         Message message = new MimeMessage(getEmailSession());
         message.setFrom(new InternetAddress(FROM_EMAIL));
