@@ -6,11 +6,12 @@ import com.aptech.testangularspringboot.exception.domain.UserNotFoundException;
 import com.aptech.testangularspringboot.exception.domain.UsernameExistException;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.List;
 
 public interface UserService {
-    User register(String firstName, String lastName, String username, String email) throws UserNotFoundException, EmailExistException, UsernameExistException;
+    User register(String firstName, String lastName, String username, String email) throws UserNotFoundException, EmailExistException, UsernameExistException, MessagingException;
 
     List<User> getUsers();
 
