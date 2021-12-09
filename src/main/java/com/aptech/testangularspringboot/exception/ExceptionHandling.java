@@ -2,10 +2,7 @@ package com.aptech.testangularspringboot.exception;
 
 
 import com.aptech.testangularspringboot.domain.HttpResponse;
-import com.aptech.testangularspringboot.exception.domain.EmailExistException;
-import com.aptech.testangularspringboot.exception.domain.EmailNotFoundException;
-import com.aptech.testangularspringboot.exception.domain.UserNotFoundException;
-import com.aptech.testangularspringboot.exception.domain.UsernameExistException;
+import com.aptech.testangularspringboot.exception.domain.*;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,6 +99,12 @@ public class ExceptionHandling implements ErrorController {
     public ResponseEntity<HttpResponse> internalServerErrorException(Exception exception) {
         LOGGER.error(exception.getMessage());
         return createHttpResponse(INTERNAL_SERVER_ERROR, INTERNAL_SERVER_ERROR_MSG);
+    }
+
+    @ExceptionHandler(NotAnImageFileException.class)
+    public ResponseEntity<HttpResponse> notAnImageFileException(NotAnImageFileException exception) {
+        LOGGER.error(exception.getMessage());
+        return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
     @ExceptionHandler(NoResultException.class)
