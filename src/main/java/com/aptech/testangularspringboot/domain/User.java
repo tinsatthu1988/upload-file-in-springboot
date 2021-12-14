@@ -1,5 +1,6 @@
 package com.aptech.testangularspringboot.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +16,7 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Long id;
 
     @Column(name = "user_id")
@@ -30,6 +32,7 @@ public class User implements Serializable {
     private String username;
 
     @Column(name = "password")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Column(name = "email")
